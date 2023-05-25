@@ -1,0 +1,229 @@
+string = import("std").string
+
+arithmetic = fn() {
+    a = 12
+    b = 34
+
+    println("Arithmetic opserators:")
+    println(["sum", a + b])
+    println(["diff", a - b])
+    println(["mul", a * b])
+    println(["div", a / b])
+    println(["rem", a % b])
+    println(["mod", a mod b])
+    println(["pow", a ** b])
+    println("");
+}
+
+bitwise = fn() {
+    x = 10
+    y = 2
+
+    println("Bitwise opserators:")
+    println(`x = {x}`)
+    println(`y = {y}`)
+    println(`~x   = {~x}`)
+    println(`x & y = (x & y)`)
+    println(`x |  y = (x | y)`)
+    println(`x ^ y = (x ^ y)`)
+    println(`x << y = (x << y)`)
+    println(`x >> y = (x >> y)`)
+    println("")
+}
+
+logical = fn() {
+    a = false
+    b = true
+
+    println("Logical operators:")
+    println(`a = {a}`)
+    println(`b = {b}`)
+    println(`a and b = {a and b}`)
+    println(`a or b = {a or b}`)
+    println(`not a = {not a}`)
+    println("")
+}
+
+number_comparison = fn() {
+    a = 12
+    b = 32
+
+    println("Comparison operators:")
+    println(`a = {a}`)
+    println(`b = {b}`)
+    println(`a == b = {a == b}`)
+    println(`a != b = {a != b}`)
+    println(`a > b = {a > b}`)
+    println(`a < b = {a < b}`)
+    println(`a >= b = {a >= b}`)
+    println(`a <= b = {a <= b}`)
+    println("")
+}
+
+string_manipulation = fn() {
+    a = "Hello"
+    b = "World"
+
+    println("String manipulation:")
+    println(`a = {a}`)
+    println(`b = {b}`)
+    println(`a > b = {a > b}`)
+    println(`a < b = {a < b}`)
+    println(`a <= b = {a <= b}`)
+    println(`a >= b = {a >= b}`)
+    println(`\`\{a\} \{b\}!\`` = {`{a} {b}!`}`)
+    println(`a ++ b = {a ++ b}`)
+    println(`\`\{a\} \{b\}!\`` = {`{a} {b}!`}`)
+    println(`(a ++ b)[1..-2] = {(a ++ b)[1..-2]}`)
+    println("")
+}
+
+conditional_structures = fn() {
+    println("Conditional structures:")
+
+    println("if expression:")
+
+    if (true) {
+        println("then branch");
+    } else {
+        println("else branch");
+    }
+
+    if (false) {
+        println("then branch");
+    } else {
+        println("else branch");
+    }
+
+    if (true) println("this also works")
+    else println("unreachable")
+
+    if (false) println("unreachable");
+    else if (true) println("else if");
+         else println("unreachable")
+
+    println("Switch expression:")
+
+    result = switch (3) {
+        0: "zero",
+        1: "one",
+        2: "two",
+        3: "three",
+        else: "else case",
+    }
+    print(result);
+
+    println(`true && "Yep" = {true && "Yep"}`)
+    println(`false && "Yep = {false && "Yep"}`)
+    println(`true || "Yep" = {true || "Yep"}`)
+    println(`false || "Yep = {false || "Yep"}`)
+
+    println("")
+}
+
+main = fn() {
+    arithmetic()
+    bitwise()
+    logical()
+    number_comparison()
+}
+
+
+// IDIOMS
+
+
+hello_world = fn() {
+    print(.{ a, b, c, d })
+}
+
+repeat_effect = fn(thing, times) {
+    if (0 < times) {
+        thing()
+        repeat(thing, times - 1)
+    }
+}
+
+hello_world_10_times = fn() {
+    repeat(hello_world, 10)
+}
+
+create_procedure = fn() {
+    procedure = fn() null
+}
+
+create_func = fn() {
+    func = () 123
+}
+
+create_2d_point = fn() {
+    list{ x = 12.34
+     , y = 56.78 }
+}
+
+iterate_over_list_values = fn() {
+    list = list{ 1, 2, 3 }
+    for_each(list, fn(item) print(item))
+}
+
+iterate_over_list_values_and_indexes = fn() {
+    list = list{ 1, 2, 3 }
+    for_each_indexed(list, fn(idx, value) print(idx, value))
+}
+
+create_binary_tree_structure = fn() {
+    map{ value = 123, left = null, right = null }
+}
+
+shuffle_list = fn() {
+    list.shuffle(list{ 1, 2, 3, 4 })
+}
+
+pick_random_in_list = fn() {
+    list{ 1, 2, 3, 4 }[random.int_range(0, 5)]
+}
+
+check_list_contains_value = fn() {
+    target = 3
+    list = list{ 1, 2, 3, 4, 5 }
+
+    // using stdlib
+    println(list.find(3))
+
+    // or
+    for (list) |it| return target == 3
+}
+
+iterate_over_map_keys_values = fn() {
+    map = map{ "a" = 1, "b" = 2, }
+    for (map) |k, v| print(k, v)
+}
+
+pick_random_int = fn() {
+    println(random.int(0, 100))
+}
+
+pick_random_float = fn() {
+    println(random.float(0, 100))
+}
+
+reverse_list = fn() {
+    items = list{ 1, 2, 3, 4, 5 }
+    println(list.reverse(items))
+}
+
+return_two_values = fn() {
+    func = fn() {
+        return list{a, b}
+    }
+}
+
+swap_values = fn() {
+    swap = (a, b) list{b, a}
+}
+
+convert_string_to_int = fn() {
+    int = fmt.parse_int("123")
+    print(int)
+}
+
+
