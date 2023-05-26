@@ -4,6 +4,7 @@ arithmetic = fn() {
     a = 12
     b = 34
 
+
     println("Arithmetic opserators:")
     println(["sum", a + b])
     println(["diff", a - b])
@@ -29,6 +30,8 @@ bitwise = fn() {
     println(`x << y = (x << y)`)
     println(`x >> y = (x >> y)`)
     println("")
+
+
 }
 
 logical = fn() {
