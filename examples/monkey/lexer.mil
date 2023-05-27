@@ -1,0 +1,167 @@
+#string = @import("std/string");
+
+token_type =
+    enum{ ident   , int
+        , invalid , eof
+        , equal   , plus
+        , comma   , semicolon
+        , lparen  , rparen
+        , lbrace  , rbrace
+        , func    , let };
+
+Token = fn(type, value) {
+    @assert(@has_key(type, token_type));
+    @assert(@has_value(value, list{:string, :int, :null}));
+
+    struct { type = type;
+           ; token_type = token_type }
+};
+
+Token = fn(type) {
+    if (@has_field(token_type, type))
+        Token(type, null)
+    else
+        @next_overload()
+}
+
+Code = fn(source, position, read_position, char) {
+    @assert_type(souce, :string);
+    @assert_type(position, :int);
+    @assert_type(read_position, :int);
+    @assert_type(char, :char);
+    @assert_type(char, list{:char, :list})
+
+    struct{
+        source = source,
+        position = position,
+        read_position = read_position,
+        char = char,
+    };
+};
+
+range = fn(start, end) {
+    items = while (i < end) : (items = list{}, i = 0)
+        append(list, i), i = 0;
+
+    sum = for (item in items) where  (sum) sum + item;
+};
+
+is_letter = fn(char) {
+    @assert_type(char, :char);
+    'a' <= char and char <= 'z' or 'A' <= char and char <= 'Z'
+};
+
+is_digit = fn(char) {
+    @assert_type(char, :char);
+    '0' <= char and char <= '9'
+};
+
+code_from_string = fn(source) {
+    Code(source, 0, 0, '\0').source;
+};
+
+read_char = fn(code) {
+    @assert_type(code, Code);
+    struct{ ...code
+            , char = if (len(code.source) <= code.read_position) '\0'
+                     else code.source[read_position]
+            , position = code.read_position
+            , read_position = code.read_position + 1
+            }
+};
+
+skip_whitespace = fn(code) {
+    @assert_type(code, Code);
+
+    while (c == ' ' or c == '\t' or c == '\n' or c == '\r')
+    with (rest = code, c = code.char) {
+        updated_code = read_char(rest);
+        updated_code, updated_code.code
+    }
+};
+
+read_while = fn(code, predicate) {
+    @assert_type(code, Code);
+    @assert_type(predicate, :bool);
+
+    while (predicate(c))
+    with (substr = "", rest = code.source) {
+       updated_code = read_char(rest);
+       str = append(substr, updated_code.code);
+       str, updated_code
+    }
+};
+
+read_identifier = fn(code) {
+    literal, rest_code = read_while(code, is_letter);
+    token = switch (literal) {
+        "fn" => Token(:func),
+        "let" => Token(:let),
+        else => Token(:ident, literal),
+    };
+
+    token, rest_code
+};
+
+read_number = fn(code) {
+    literal, rest_code = read_while(code, is_letter);
+    @parse_int(literal), rest_code
+};
+
+next_token = fn(code) {
+    code = skip_whitespace(code);
+    code = read_char(code);
+
+    make_token = fn(result) Token(result), code;
+
+    switch (code.char) {
+        '=' => make_token(:equal),
+        '+' => make_token(:plus),
+        ',' => make_token(:comma),
+        ';' => make_token(:semicolon),
+        '(' => make_token(:lparen),
+        ')' => make_token(:rparen),
+        '{' => make_token(:lbrace),
+        '}' => make_token(:rbrace),
+        else {
+            if (is_letter(char)) {
+                read_identifier(), code
+            } else if is_digit(char) {
+                read_number(), code
+            } else {
+                make_token(:illegal)
+            }
+        }
+    }
+};
+
+tokenize = fn(code) {
+    code = read_char(code);
+
+    tokens = while (token != :eof)
+    with (tokens = list{}; token, rest = next_token(code)) {
+        token, rest = next_token(code);
+        tokens = append(tokens, token);
+
+        tokens, token, rest 
+    };
+
+    tokens
+};
+
+main = fn() {
+    source = """
+        let five = 5;
+        let ten = 10;
+        let add = fn(x, y) {
+            x + y;
+        };
+        let result = add(five, ten);
+    """;
+
+    tokens = tokenize(source);
+
+    for (token in tokens) {
+        @println(token);
+    }
+};
