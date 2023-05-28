@@ -1,54 +1,51 @@
-// + - * / % mod = ~ & | ^ << >> for ( ) {};
-
-#[derive(Debug, PartialEq, Eq, Clone, Copy)]
+#[derive(Debug, PartialEq)]
 pub enum Token {
-    Illegal,
+    //1
+    Tilda,
 
-    // numbers
-    Int,
-    Float,
-
-    // separators
-    LeftParen,
-    RightParen,
-    LeftBrace,
-    RightBrace,
-    Semicolon,
+    //2
+    Ampersand,
+    Bar,
+    Caret,
     Comma,
     Dot,
-
-    // unary
-    Minus,
-    BitNot,
-    Not,
-
-    // binary
-    Assign,
-    Plus,
-    Star,
-    Pow,
-    Slash,
-    Reminder,
     Equal,
-    NotEqual,
-    And,
-    Or,
-    Xor,
-    BitAnd,
-    BitOr,
-    BitXor,
-    Shl,
-    Shr,
-    Less,
-    LessEqual,
+    EqualEqual,
+    EqualGreater,
     Greater,
     GreaterEqual,
+    GreaterGreater,
+    Less,
+    LessEqual,
+    LessLess,
+    Minus,
+    NotEqual,
+    Plus,
+    Slash,
+    Star,
+
+    //0
+    BackSlash,
+    Hash,
+    LeftBrace,
+    LeftParen,
+    RightBrace,
+    RightParen,
+    Semicolon,
+    LeftBracket,
+    RightBracket,
+
+    // values
+    Identifier,
+    Float,
+    Int,
+    String,
+    Char,
+    Atom,
+    Builtin,
 
     // keywords
-    Mod,
-    If,
-    Else,
     Fn,
-
-    Identifier,
+    While,
+    For,
 }

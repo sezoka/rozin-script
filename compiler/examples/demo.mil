@@ -1,0 +1,25 @@
+// + - * /
+// ~ & | ^  << >>
+// = == != > < >= <=
+// () {} []
+// # @ ; , . : \
+// ' " 
+
+// :asfd
+
+// asdf fdsa
+// 's'
+
+// "123qwe"
+
+// 123 456.1
+
+
+token_type =
+    enum{ ident   , int
+        , invalid , eof
+        , equal   , plus
+        , comma   , semicolon
+        , lparen  , rparen
+        , lbrace  , rbrace
+        , func    , let };

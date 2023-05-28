@@ -1,5 +1,3 @@
-#string = @import("std/string");
-
 token_type =
     enum{ ident   , int
         , invalid , eof
@@ -13,8 +11,10 @@ Token = fn(type, value) {
     @assert(@has_key(type, token_type));
     @assert(@has_value(value, list{:string, :int, :null}));
 
-    struct { type = type;
-           ; token_type = token_type }
+    struct {
+        type = type;
+        token_type = token_type;
+    }
 };
 
 Token = fn(type) {
@@ -29,14 +29,14 @@ Code = fn(source, position, read_position, char) {
     @assert_type(position, :int);
     @assert_type(read_position, :int);
     @assert_type(char, :char);
-    @assert_type(char, list{:char, :list})
+    @assert_type(char, list{:char, :list});
 
     struct{
-        source = source,
-        position = position,
-        read_position = read_position,
-        char = char,
-    };
+        source = source;
+        position = position;
+        read_position = read_position;
+        char = char;
+    }
 };
 
 range = fn(start, end) {
@@ -62,7 +62,7 @@ code_from_string = fn(source) {
 
 read_char = fn(code) {
     @assert_type(code, Code);
-    struct{ ...code
+    map{ ...code
             , char = if (len(code.source) <= code.read_position) '\0'
                      else code.source[read_position]
             , position = code.read_position
@@ -150,14 +150,14 @@ tokenize = fn(code) {
 };
 
 main = fn() {
-    source = """
+    source = "
         let five = 5;
         let ten = 10;
         let add = fn(x, y) {
             x + y;
         };
         let result = add(five, ten);
-    """;
+    ";
 
     tokens = tokenize(source);
 
