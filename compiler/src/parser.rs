@@ -56,7 +56,6 @@ impl<'a> Debug for Expression<'a> {
             Identifier(name) => write!(f, "{}", name),
             Int(int) => write!(f, "{}", int),
             Sub { a, b } => write!(f, "(- {:?} {:?})", a, b),
-
             Mul { a, b } => write!(f, "(* {:?} {:?})", a, b),
             Div { a, b } => write!(f, "(/ {:?} {:?})", a, b),
             Rem { a, b } => write!(f, "(% {:?} {:?})", a, b),

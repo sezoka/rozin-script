@@ -76,7 +76,6 @@ impl<'a> Lexer<'a> {
             self.advance();
         }
 
-        println!("HEHE, {} {}", self.peek(), self.peek_next());
         if self.peek() == '.' && is_digit(self.peek_next()) {
             self.advance();
             while is_digit(self.peek()) {
